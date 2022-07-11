@@ -36,15 +36,16 @@ for i in range(26):
         count += test_text.count(word)
     counts.append(count)
 
-i_maxima = []
+steps_to_maxima = []
 best_guesses = []
 for (i, count) in enumerate(counts):
     if count == max(counts):
-        i_maxima.append(i)
+        steps_to_maxima.append(i)
         best_guesses.append(rotate_text(i, text))
 
-print("(Each rotation increments the letter; i.e. 'a' -> 'b', 'd' -> 'e', 'z' -> 'a')")
-print(f'\nROTATION(S) WITH MOST HITS: {i_maxima}')
+print("(Each rotation increments the letter; e.g. a → b, d → e, z → a)")
+print(f'\nROTATION(S) WITH MOST HITS: {[26 - i for i in steps_to_maxima]}')
+print('Try decoding the text assuming a → b, b → c, et cetera these numbers of times.')
 print(f'HIT DISTRIBUTION: {counts}')
 print('BEST GUESS(ES):')
 for guess in best_guesses:

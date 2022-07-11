@@ -18,3 +18,17 @@ Then the program will prompt you:
 ```
 File or input text to decode: <enter encoded text>
 ```
+
+In this context, a 'rotation' of one means that the letter 'a' goes to 'b' when encoded, the letter 'b' goes to 'c', etc.
+For example, a rotation of 14 in the encoding puts the letter 'a' at the letter 'o'.
+
+If the program outputs
+```
+-- snip --
+ROTATION(S) WITH THE MOST HITS: [14]
+-- snip --
+```
+then you might want to try sending the letters in the cipher from 'o' → 'a', 'p' → 'b', etc.
+
+Incidentally, I have another program that can do exactly this:
+[caesar\_cipher](https://github.com/benharmonics/caesar_cipher)
