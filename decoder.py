@@ -59,13 +59,20 @@ for (i, count) in enumerate(scores):
     if count == max(scores):
         steps_to_maxima.append(i)
         best_guesses.append(rotate_text(i, text))
+rotations = [26 - i for i in steps_to_maxima]
 
 print("(Each rotation increments the letter; e.g. a → b, d → e, z → a)")
-print(f'\nROTATION(S) WITH MOST HITS: {[26 - i for i in steps_to_maxima]}')
-print('Try decoding the text transformed (a → b, b → c, etc) assuming '
+print(f'\nROTATION(S) WITH MOST HITS: {rotations}')
+print('Try decoding the text transformed (a → b, b → c, etc)\nassuming '
       'the cipher was based on these numbers while being encoded.')
 print(f'\nSCORE DISTRIBUTION:\nROT 0-12: {percentages[:13]}\nROT 13-25: {percentages[13:]}')
 print('\nBEST GUESS(ES):')
-for guess in best_guesses:
-    print(f'{guess}')
+for rot, guess in zip(rotations, best_guesses):
+    output_len = 200
+    end = min(output_len, len(guess) - 1)
+    report = f'{guess[:end]}'
+    if end == output_len:
+        report += '...'
+    print(f' • Encoded text interpreted as ROT{rot}, now decoded:')
+    print(report)
 
