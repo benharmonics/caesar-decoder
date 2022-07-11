@@ -20,10 +20,12 @@ counts = []
 for i in range(26):
     rotated_letters = []
     for c in text:
-        if ord(c) < ord('z'):
+        if ord(c) + i < ord('z'):
             rotated_letters.append(chr(ord(c) + i))
         else:
-            rotated_letters.append('a')
+            overshoot = (ord(c) + i) - ord('z')
+            letter = chr(ord('a') + overshoot)
+            rotated_letters.append(letter)
     test_text = ''.join(rotated_letters)
 
     count = 0
@@ -31,10 +33,11 @@ for i in range(26):
         count += test_text.count(word)
     counts.append(count)
 
-indices_of_maxima = []
+i_maxima = []
 for (i, count) in enumerate(counts):
-    if count == max(counts): indices_of_maxima.append(i)
+    if count == max(counts):
+        i_maxima.append(i)
 
 print("(Each rotation increments the letter; i.e. 'a' -> 'b', 'd' -> 'e', 'z' -> 'a')")
-print(f'\nRotation(s) with most hits: {indices_of_maxima}')
+print(f'\nRotation(s) with most hits: {i_maxima}')
 print(f'Hit distribution: {counts}')
