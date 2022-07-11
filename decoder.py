@@ -16,17 +16,20 @@ text = ''.join([c.lower() for c in source_text if c.isalpha()])
 with open('100commonwords.txt', 'r') as f:
     common_words = [word for word in f.read().split('\n') if not word.isspace()]
 
-counts = []
-for i in range(26):
+def rotate_text(i, input_text):
     rotated_letters = []
-    for c in text:
+    for c in input_text:
         if ord(c) + i < ord('z'):
             rotated_letters.append(chr(ord(c) + i))
         else:
             overshoot = (ord(c) + i) - ord('z')
-            letter = chr(ord('a') + overshoot)
+            letter = chr(ord('a') + overshoot - 1)
             rotated_letters.append(letter)
-    test_text = ''.join(rotated_letters)
+    return ''.join(rotated_letters)
+
+counts = []
+for i in range(26):
+    test_text = rotate_text(i, text)
 
     count = 0
     for word in common_words:
@@ -34,10 +37,15 @@ for i in range(26):
     counts.append(count)
 
 i_maxima = []
+best_guesses = []
 for (i, count) in enumerate(counts):
     if count == max(counts):
         i_maxima.append(i)
+        best_guesses.append(rotate_text(i, text))
 
 print("(Each rotation increments the letter; i.e. 'a' -> 'b', 'd' -> 'e', 'z' -> 'a')")
-print(f'\nRotation(s) with most hits: {i_maxima}')
-print(f'Hit distribution: {counts}')
+print(f'\nROTATION(S) WITH MOST HITS: {i_maxima}')
+print(f'HIT DISTRIBUTION: {counts}')
+print('BEST GUESS(ES):')
+for guess in best_guesses:
+    print(f'{guess}')
