@@ -12,11 +12,11 @@ except:
         print('No text entered.')
         quit()
 
-text = ''.join([c.lower() for c in source_text])
+text = source_text.lower()
 
 # get a list of ~100 of the most commonly used words in English
 with open('100commonwords.txt', 'r') as f:
-    common_words = [word for word in f.read().split('\n') if not word.isspace()]
+    common_words = [word for word in f.read().split('\n')]
 
 def rotate_text(i, input_text):
     """Caesar cipher: rotate text by i letters"""
@@ -33,6 +33,8 @@ def rotate_text(i, input_text):
         rotated_letters.append(letter)
     return ''.join(rotated_letters)
 
+# We'll score each possible rotation based on how many
+# hits it scores when compared to our common words list
 scores = []
 for i in range(26):
     test_text = rotate_text(i, text)
@@ -42,11 +44,9 @@ for i in range(26):
         score += test_text.count(word) * len(word)
     scores.append(score)
 
+# Score distribution (percentage of total)
 distribution = [s / sum(scores) for s in scores]
 
-# When we rotate 14 positions in our rotate_text function, if you think about
-# it, we're undoing 12 rotations in the encoding. So the encoding undone by
-# by our function is 26 minus the number of steps we took.
 percentages = [f'{round(100 * d, 1)}%' for d in reversed(distribution)]
 # When we reversed the distribution, we put the 'null' rotation at the end
 # of the list; let's move it back to the beginning for formatting
@@ -58,6 +58,9 @@ for (i, score) in enumerate(scores):
     if score == max(scores):
         steps_to_maxima.append(i)
         best_guesses.append(rotate_text(i, text))
+# When we rotate 14 positions in our rotate_text function, if you think about
+# it, we're undoing 12 rotations in the encoding. So the encoding undone by
+# by our function is 26 minus the number of steps we took.
 rotations = [26 - i for i in steps_to_maxima]
 
 print("(Each rotation increments the letter; e.g. a → b, d → e, z → a)")
