@@ -48,15 +48,14 @@ distribution = [s / sum(scores) for s in scores]
 # it, we're undoing 12 rotations in the encoding. So the encoding undone by
 # by our function is 26 minus the number of steps we took.
 percentages = [f'{round(100 * d, 1)}%' for d in reversed(distribution)]
-# The final percentage now corresponds to 0 rotations (the one before it corresponds
-# to 25 rotations). The first percentage corresponds to 1 rotation. Let's move the
-# last percentage to the front of the array for formatting
+# When we reversed the distribution, we put the 'null' rotation at the end
+# of the list; let's move it back to the beginning for formatting
 percentages = [percentages[-1], *percentages[:-1]]
 
 steps_to_maxima = []
 best_guesses = []
-for (i, count) in enumerate(scores):
-    if count == max(scores):
+for (i, score) in enumerate(scores):
+    if score == max(scores):
         steps_to_maxima.append(i)
         best_guesses.append(rotate_text(i, text))
 rotations = [26 - i for i in steps_to_maxima]
@@ -67,7 +66,12 @@ print('Try decoding the text transformed (a → b, b → c, etc)\nassuming '
       'the rotation with the most hits is 14, the cipher was\ndetermined to be '
       'likely encoded with ROT14.')
 print(f'\nROTATION(S) WITH MOST HITS: {rotations}')
-print(f'\nSCORE DISTRIBUTION:\nROT 0-12: {percentages[:13]}\nROT 13-25: {percentages[13:]}')
+print(f'\nSCORE DISTRIBUTION:')
+for i, percentage in enumerate(percentages[::2]):
+    pad_length = len('ROT XX-XX:')
+    init_str = f'ROT {2 * i}-{2 * i + 1}:'
+    final_str = init_str + " " * (pad_length - len(init_str))
+    print(f'{final_str} {percentage} {percentages[2 * i + 1]}')
 print('\nBEST GUESS(ES):')
 for rot, guess in zip(rotations, best_guesses):
     output_len = 200
