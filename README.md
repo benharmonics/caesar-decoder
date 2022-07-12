@@ -31,4 +31,6 @@ ROTATION(S) WITH THE MOST HITS: [14]
 then you might want to try sending the letters in the cipher from 'o' → 'a', 'p' → 'b', etc.
 
 Incidentally, I have another program that can do exactly this:
-[caesar\_cipher](https://github.com/benharmonics/caesar_cipher)
+[caesar-cipher](https://github.com/benharmonics/caesar-cipher)
+
+It's a Rust CLI program but it's nice IMHO.
